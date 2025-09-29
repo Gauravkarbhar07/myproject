@@ -15,7 +15,7 @@ def admin_required(f):
   def decorated_function(*args,**kwargs):
     if not session.get("is_Admin"):
       flash("Admin access required.", "Danger")
-      return redirect (Templates/index.html)
+      return redirect (url_for("index"))
     return f(*args, **kwargs)
     return decorated_function
 @app.route('/')
@@ -63,8 +63,8 @@ def update_product(id):
   cursor.execute("SELECT * FROM equipment WHERE id=%s", (id,))
   product = cursor.fetchone()
   db.close()
-  return render_template("update_product.html", equipment=equipment)
-@app.route("/delet/<int:id>")
+  return render_template("update_product.html", product=product)
+@app.route("/delete/<int:id>")
 @admin_required
 def delete_product(id):
     db = get_connection()
